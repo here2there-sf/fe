@@ -19,7 +19,8 @@ export class MyOrganizationComponent implements OnInit {
 
   displayedColumns: string[] = ['actions', 'alias', 'email', 'type', 'createdAt', 'updatedAt'];
 
-  constructor(private orgService: OrganizationService, private dialog: MatDialog) { }
+  constructor(public orgService: OrganizationService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.initializeDataSource();

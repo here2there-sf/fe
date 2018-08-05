@@ -15,7 +15,9 @@ export class SignupComponent implements OnInit {
   password = new FormControl('', [Validators.required]);
   email = new FormControl('', [Validators.required, Validators.email]);
 
-  constructor(private authService: AuthService, public errorSnackBar: MatSnackBar, private router: Router) {
+  constructor(private authService: AuthService,
+              public errorSnackBar: MatSnackBar,
+              public router: Router) {
     if (this.authService.isAuthenticated) {
       this.router.navigateByUrl('/home');
     }

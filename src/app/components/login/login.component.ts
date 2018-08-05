@@ -13,7 +13,8 @@ export class LoginComponent implements OnInit {
   username = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService,
+              private router: Router) {
     if (authService.isAuthenticated) {
       router.navigateByUrl('/home');
     }

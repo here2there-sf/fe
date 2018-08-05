@@ -15,7 +15,7 @@ export class MetadataSelectionDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<MetadataSelectionDialogComponent>,
-    private forceService: JsforceService) { }
+    public forceService: JsforceService) { }
 
   ngOnInit(): void {
     this.tempSelectedMetadataTypes = this.forceService.selectedMetadataTypes;

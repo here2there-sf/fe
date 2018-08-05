@@ -81,7 +81,7 @@
         </button>
         <div class="text-center">
           <button mat-button matStepperPrevious class="w-50 mb-2" [disabled]="loadingService.loading">Back</button>
-          <button mat-button matStepperNext class="w-50 mb-2" [disabled]="!forceService.selectedMetadataTypes.length > 0">Next</button>
+          <button mat-button matStepperNext class="w-50 mb-2" [disabled]="!(forceService.selectedMetadataTypes.length > 0)">Next</button>
         </div>
       </mat-card-content>
     </mat-card>

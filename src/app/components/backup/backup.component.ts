@@ -19,7 +19,8 @@ export class BackupComponent implements OnInit {
 
   displayedColumns: string[] = ['actions', 'organization', 'type', 'frequency', 'startDate', 'createdAt', 'updatedAt'];
 
-  constructor(private backupService: BackupService, private dialog: MatDialog) {}
+  constructor(public backupService: BackupService,
+              public dialog: MatDialog) {}
 
   ngOnInit() {
     this.initializeDataSource();

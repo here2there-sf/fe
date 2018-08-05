@@ -24,9 +24,9 @@ export class HomeComponent implements OnInit {
     {text: 'Migrations', cols: 1, rows: 1, color: 'lightpink', count: 0, icon: 'cloud'},
     {text: 'Backups', cols: 1, rows: 1, color: '#DDBDF1', count: 0, icon: 'cloud'},
   ];
-  constructor(private forceService: JsforceService,
-              private metadataService: MetadataService,
-              private orgService: OrganizationService) {
+  constructor(public forceService: JsforceService,
+              public metadataService: MetadataService,
+              public orgService: OrganizationService) {
     this.forceService._initMetadata();
   }
 

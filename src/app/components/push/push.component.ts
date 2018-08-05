@@ -25,10 +25,10 @@ export class PushComponent implements OnInit {
   private pushStatusInterval: NodeJS.Timer;
 
   constructor(private _formBuilder: FormBuilder,
-              private orgService: OrganizationService,
-              private forceService: JsforceService,
-              private metadataService: MetadataService,
-              private loadingService: LoadingService) {
+              public orgService: OrganizationService,
+              public forceService: JsforceService,
+              public metadataService: MetadataService,
+              public loadingService: LoadingService) {
     this.forceService._initMetadata();
   }
 

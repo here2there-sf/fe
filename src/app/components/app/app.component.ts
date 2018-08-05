@@ -22,6 +22,8 @@ export class AppComponent {
     '/myorg': 'my organizations'
   };
 
-  constructor(public authService: AuthService, public router: Router, public loadingService: LoadingService) {
+  constructor(public authService: AuthService,
+              public router: Router,
+              public loadingService: LoadingService) {
   }
 }

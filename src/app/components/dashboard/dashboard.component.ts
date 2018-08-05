@@ -12,10 +12,10 @@ import {BackupService} from '../../services/backup.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private forceService: JsforceService,
-              private metadataService: MetadataService,
-              private orgService: OrganizationService,
-              private backupService: BackupService) { }
+  constructor(public forceService: JsforceService,
+              public metadataService: MetadataService,
+              public orgService: OrganizationService,
+              public backupService: BackupService) { }
 
   ngOnInit() { }
 

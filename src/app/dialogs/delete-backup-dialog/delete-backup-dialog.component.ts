@@ -15,8 +15,8 @@ export class DeleteBackupDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) private data: any,
               private dialogRef: MatDialogRef<DeleteBackupDialogComponent>,
               private _formBuilder: FormBuilder,
-              private backupService: BackupService,
-              private loadingService: LoadingService) {
+              public backupService: BackupService,
+              public loadingService: LoadingService) {
   }
 
   ngOnInit(): void {

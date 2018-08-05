@@ -28,10 +28,10 @@ export class DownloadComponent implements OnInit {
 
   displayedColumns: string[] = ['actions', 'alias', 'email', 'type', 'createdAt', 'expiresAt'];
 
-  constructor(private orgService: OrganizationService,
-              private forceService: JsforceService,
-              private metadataService: MetadataService,
-              private loadingService: LoadingService) {
+  constructor(public orgService: OrganizationService,
+              public forceService: JsforceService,
+              public metadataService: MetadataService,
+              public loadingService: LoadingService) {
     this.forceService._initMetadata();
   }
 

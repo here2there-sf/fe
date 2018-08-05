@@ -18,8 +18,8 @@ export class CreateOrganizationDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<EditOrganizationDialogComponent>,
               private _formBuilder: FormBuilder,
-              private orgService: OrganizationService,
-              private loadingService: LoadingService) {
+              public orgService: OrganizationService,
+              public loadingService: LoadingService) {
   }
 
   ngOnInit(): void {
