@@ -2,8 +2,6 @@ import { environment } from '../environments/environment';
 
 export const globals = {
   // Api bases
-  API_BASE: environment.API_BASE,
-
   AUTH_BASE: environment.AUTH_BASE,
 
   ORG_BASE: environment.ORG_BASE,

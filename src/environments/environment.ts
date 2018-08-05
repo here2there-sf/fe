@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  API_BASE: 'http://localhost:8080',
   AUTH_BASE: 'https://here2there-auth.herokuapp.com',
   ORG_BASE: 'https://here2there-organization.herokuapp.com',
   FORCE_BASE: 'https://here2there-force.herokuapp.com',
