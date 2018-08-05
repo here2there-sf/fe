@@ -12,7 +12,7 @@ import { BackupService } from '../../services/backup.service';
 export class DeleteBackupDialogComponent implements OnInit {
   deleteBackupForm: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<DeleteBackupDialogComponent>,
               private _formBuilder: FormBuilder,
               public backupService: BackupService,

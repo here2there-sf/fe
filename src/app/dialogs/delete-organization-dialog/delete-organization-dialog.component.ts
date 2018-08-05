@@ -13,7 +13,7 @@ import { LoadingService } from '../../loading.service';
 export class DeleteOrganizationDialogComponent implements OnInit {
   deleteOrganizationForm: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<EditOrganizationDialogComponent>,
               private _formBuilder: FormBuilder,
               public orgService: OrganizationService,

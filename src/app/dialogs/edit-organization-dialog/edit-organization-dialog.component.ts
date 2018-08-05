@@ -16,7 +16,7 @@ export class EditOrganizationDialogComponent implements OnInit {
   editOrganizationFormTokenHide = true;
   editOrganizationFormPasswordHide = true;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<EditOrganizationDialogComponent>,
               private _formBuilder: FormBuilder,
               public orgService: OrganizationService,
