@@ -1,0 +1,53 @@
+app-dashboard {
+  #dashboard {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  @media (max-width: $screen-lg) {
+    .col-angular-sm {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 50%;
+      -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+      max-width: 50%;
+      padding: 10px;
+    }
+  }
+  @media (max-width: $screen-sm) {
+    .col-angular-xs {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 100%;
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .background-my-organizations {
+    background: map_get($mat-deep-purple, 100) linear-gradient(90deg, rgba(255, 165, 175, 0.83), #7400d0);
+    color: #fff;
+    z-index: 0;
+    top: 0px;
+  }
+
+  .background-metadata {
+    background: map_get($mat-deep-purple, 100) linear-gradient(90deg, rgba(129, 152, 208, 0.83), #00a6ff);
+    color: #fff;
+    z-index: 0;
+    top: 0px;
+  }
+
+  .background-migration {
+    background: map_get($mat-deep-purple, 100) linear-gradient(145deg, #89e9ffa6, #120ee078);
+    color: #fff;
+    z-index: 0;
+    top: 0px;
+  }
+
+  .background-backup {
+    background: map_get($mat-deep-purple, 100) linear-gradient(145deg, rgba(104, 255, 161, 0.65), rgba(255, 0, 60, 0.47));
+    color: #fff;
+    z-index: 0;
+    top: 0px;
+  }
+}

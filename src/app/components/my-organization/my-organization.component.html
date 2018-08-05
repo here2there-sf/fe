@@ -1,0 +1,71 @@
+<mat-card class="bg-transparent h-100 px-4">
+  <mat-card-header>
+    <mat-card-title><h6 class="color-theme-main">Saved Organizations</h6></mat-card-title>
+    <mat-card-subtitle>Manage your saved organizations. For security purposes your organization's security token and password are never present on our front end after creation. If your Salesforce credentials have changed for an organization, you will have to update or delete the previous version here. We cannot help you recover your Salesforce credentials. Additionally, please take into consideration that any migrations or backups scheduled for an organization rely on the information below. If your Salesforce credentials change for an organization, any scheduled migrations or backups for that organization will fail until updated below.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="mat-elevation-z1 overflow-x-auto">
+    <mat-toolbar class="bg-theme-pink text-white"><span>My Organizations</span><span class="fill-remaining-space"></span><button mat-raised-button color="primary" (click)="openCreateOrganizationDialog()"><mat-icon>add</mat-icon>Add Organization</button>
+    </mat-toolbar>
+
+    <mat-form-field class="px-3 pt-2 w-100">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+    </mat-form-field>
+
+    <table mat-table matSort matSortActive="createdAt" matSortDirection="desc" [dataSource]="dataSource" class="w-100 h-100">
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <a  (click)="openEditOrganizationDialog(element)">
+            <mat-icon class="clickable color-dark align" matTooltip="Manage organization"
+                      aria-label="Manage organization">settings</mat-icon>
+          </a>
+          <a (click)="openDeleteOrganizationDialog(element)">
+            <mat-icon class="clickable color-theme-pink" matTooltip="Delete organization"
+                      aria-label="Delete organization">delete</mat-icon>
+          </a>
+          <a (click)="openScheduleBackupDialog(element)">
+            <mat-icon class="clickable" matTooltip="Schedule a backup"
+                      aria-label="Schedule a backup">archive</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <!-- Alias Column -->
+      <ng-container matColumnDef="alias">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Alias / Nickname </th>
+        <td mat-cell *matCellDef="let element"> {{element.alias}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type.charAt(0).toUpperCase() + element.type.slice(1)}} </td>
+      </ng-container>
+
+      <!-- CreatedAt Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+
+      <!-- UpdatedAt Column -->
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Updated At </th>
+        <td mat-cell *matCellDef="let element"> {{element.updatedAt | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

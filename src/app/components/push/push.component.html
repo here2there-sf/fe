@@ -1,0 +1,119 @@
+<mat-horizontal-stepper #stepper class="h-100">
+
+  <!-- Select Metadata Step -->
+  <mat-step>
+    <ng-template matStepLabel>{{selected_metadata ? selected_metadata.organization.alias : 'Select Metadata'}}</ng-template>
+    <mat-toolbar class="mat-elevation-z1 bg-theme-pink text-white">Available to Deploy</mat-toolbar>
+
+    <table mat-table [dataSource]="metadataService._oneOffPulls" class="w-100 h-100 mat-elevation-z1">
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button matStepperNext (click)="selected_metadata = element">Deploy</button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef><b>{{metadataService._oneOffPulls.length === 0 ? 'No one-off pulls found.' : 'Count: ' + metadataService._oneOffPulls.length}}</b></td>
+      </ng-container>
+      <!-- Alias Column -->
+      <ng-container matColumnDef="alias">
+        <th mat-header-cell *matHeaderCellDef> Org Alias / Nickname </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization.alias}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization.email}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Metadata Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type.charAt(0).toUpperCase() + element.type.slice(1)}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <!-- CreatedAt Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created At </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <!-- Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+  </mat-step>
+
+  <!-- Select Organization Step -->
+  <mat-step>
+    <mat-card class="responsive-card p-0 m-auto">
+      <mat-card-content>
+        <ng-template matStepLabel>Select Organization</ng-template>
+        <mat-toolbar class="mat-elevation-z1 bg-theme-pink text-white">Select Destination</mat-toolbar>
+
+        <mat-tab-group>
+          <mat-tab label="Manual Organization">
+            <form [formGroup]="destinationOrgFormGroup" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="p-5">
+              <mat-form-field>
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="destinationOrgFormGroup.controls['email'].hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="destinationOrgFormGroup.controls['email'].hasError('email')">
+                  Email is <strong>invalid</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Password" [type]="originOrgPasswordHide ? 'password' : 'text'" formControlName="password">
+                <mat-icon matSuffix (click)="toggleVisibilityOriginPassword()">{{originOrgPasswordHide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="destinationOrgFormGroup.controls['password'].hasError('required')">
+                  Password is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Security Token" [type]="originOrgSecurityTokenHide ? 'password' : 'text'" formControlName="securityToken">
+                <mat-icon matSuffix (click)="toggleVisibilityOriginOrgSecurity()">{{originOrgSecurityTokenHide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="destinationOrgFormGroup.controls['securityToken'].hasError('required')">
+                  Security Token is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Organization Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let type of orgService.types" [value]="type">{{type.charAt(0).toUpperCase() + type.slice(1)}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="destinationOrgFormGroup.controls['type'].hasError('required')">
+                  Type is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <div class="text-center">
+                <button mat-button matStepperPrevious [disabled]="loadingService.loading" class="w-50 mb-2" (click)="resetStepper()">Previous</button>
+                <button mat-button [disabled]="destinationOrgFormGroup.invalid || loadingService.loading" (click)="push()" class="w-50 mb-2">Deploy</button>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Saved Organization">
+            <form [formGroup]="originSavedOrganizationForm" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="p-5">
+              <mat-form-field>
+                <mat-label>Organization</mat-label>
+                <mat-select (selectionChange)="loadOrganizationData($event.value)">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let organization of orgService.organizations" [value]="organization">{{organization.alias}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="text-center">
+                <button mat-button matStepperPrevious class="w-50 mb-2" (click)="resetStepper()">Previous</button>
+                <button mat-button [disabled]="destinationOrgFormGroup.invalid || loadingService.loading || !selected_metadata" (click)="push()" class="w-50 mb-2">Deploy</button>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+
+      </mat-card-content>
+    </mat-card>
+  </mat-step>
+
+</mat-horizontal-stepper>

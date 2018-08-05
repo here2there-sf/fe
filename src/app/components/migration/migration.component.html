@@ -1,0 +1,106 @@
+<mat-horizontal-stepper #stepper [selectedIndex]="forceService.stepper_index" class="h-100">
+
+  <!-- Select Organization Step -->
+  <mat-step>
+    <mat-card class="responsive-card p-0 m-auto">
+      <mat-card-content>
+        <ng-template matStepLabel>Select Organization</ng-template>
+        <mat-tab-group>
+          <mat-tab label="Manual Organization">
+            <form [formGroup]="originOrgFormGroup" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="p-5">
+              <mat-form-field>
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="originOrgFormGroup.controls['email'].hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="originOrgFormGroup.controls['email'].hasError('email')">
+                  Email is <strong>invalid</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Password" [type]="originOrgPasswordHide ? 'password' : 'text'" formControlName="password">
+                <mat-icon matSuffix (click)="toggleVisibilityOriginPassword()">{{originOrgPasswordHide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="originOrgFormGroup.controls['password'].hasError('required')">
+                  Password is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Security Token" [type]="originOrgSecurityTokenHide ? 'password' : 'text'" formControlName="securityToken">
+                <mat-icon matSuffix (click)="toggleVisibilityOriginOrgSecurity()">{{originOrgSecurityTokenHide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="originOrgFormGroup.controls['securityToken'].hasError('required')">
+                  Security Token is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Organization Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let type of orgService.types" [value]="type">{{type.charAt(0).toUpperCase() + type.slice(1)}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="originOrgFormGroup.controls['type'].hasError('required')">
+                  Type is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <div class="text-center">
+                <button mat-button (click)="listMetadataTypes()" [disabled]="originOrgFormGroup.invalid || loadingService.loading" class="w-50 mb-2">Next</button>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Saved Organization">
+            <form [formGroup]="originSavedOrganizationForm" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="p-5">
+              <mat-form-field>
+                <mat-label>Organization</mat-label>
+                <mat-select (selectionChange)="loadOrganizationData($event.value)">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let organization of orgService.organizations" [value]="organization">{{organization.alias}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="text-center">
+                <button mat-button (click)="listMetadataTypes()" [disabled]="originOrgFormGroup.invalid || loadingService.loading" class="w-50 mb-2">Next</button>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </mat-step>
+
+  <!-- Select Metadata Step -->
+  <mat-step [stepControl]="originOrgFormGroup">
+    <mat-card class="responsive-card m-auto" [style.overflow]="'auto'">
+      <mat-card-content class="h-px-375" fxLayout="column" fxLayoutAlign="space-evenly center">
+        <ng-template matStepLabel>Select Metadata</ng-template>
+        <mat-slide-toggle #selectAllMetadataSlider (click)="forceService.selectAll()" matTooltip="Warning: selecting all metadata types can lead to failure for large organizations on quick pulls. Make sure you are within the Salesforce Metadata API limitations."
+                          aria-label="Warning: selecting all metadata types can lead to failure for large organizations on quick pulls. Make sure you are within the Salesforce Metadata API limitations.">Select all Metadata Types</mat-slide-toggle>
+        <button mat-raised-button color="primary" matTooltip="Select individual metadata types"
+                aria-label="Select individual metadata types"
+                matBadge="{{forceService.selectedMetadataTypes.length}}" matBadgePosition="before" matBadgeColor="accent"
+                (click)="openDialog()">
+          Manual Select
+        </button>
+        <div class="text-center">
+          <button mat-button matStepperPrevious class="w-50 mb-2" [disabled]="loadingService.loading">Back</button>
+          <button mat-button matStepperNext class="w-50 mb-2" [disabled]="!forceService.selectedMetadataTypes.length > 0">Next</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-step>
+
+  <!-- Confirm Pull Step -->
+  <mat-step [stepControl]="originOrgFormGroup">
+    <mat-card class="responsive-card m-auto">
+      <mat-card-content>
+        <ng-template matStepLabel>Pull</ng-template>
+        <mat-card-header fxLayout="column" fxLayoutAlign="center stretch" class="text-center">
+          Are you sure you want to pull?
+        </mat-card-header>
+        <div>
+          <button mat-button matStepperPrevious class="w-50 mb-2" [disabled]="loadingService.loading">Back</button>
+          <button mat-button matStepperNext class="w-50 mb-2" (click)="beginPull()" [disabled]="originOrgFormGroup.invalid || loadingService.loading">Yes</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-step>
+
+</mat-horizontal-stepper>

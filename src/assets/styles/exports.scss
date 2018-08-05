@@ -1,0 +1,21 @@
+// Globals
+@import 'global/variables';
+@import 'global/global-class';
+@import 'global/global-styles';
+
+// Fonts
+@import 'fonts/fonts';
+
+// Angular Material Design Customization
+@import 'mat-customization/mat-tab';
+@import 'mat-customization/mat-menu';
+@import 'mat-customization/mat-stepper';
+@import 'mat-customization/mat-drawer';
+@import 'mat-customization/mat-theme';
+@import 'mat-customization/mat-table';
+@import 'mat-customization/mat-toolbar';
+@import 'mat-customization/mat-card';
+@import 'mat-customization/mat-icon';
+
+// Components
+@import 'components/dashboard';

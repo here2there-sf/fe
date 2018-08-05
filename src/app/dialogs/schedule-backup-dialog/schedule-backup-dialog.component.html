@@ -1,0 +1,49 @@
+<div class="container">
+  <h2 mat-dialog-title class="text-center">Schedule a Backup for</h2>
+  <div mat-dialog-content style="max-height: 400px;">
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="scheduleBackupForm" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="pt-2">
+          <mat-form-field>
+            <mat-label>Organization</mat-label>
+            <mat-select formControlName="organization">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let organization of orgService.organizations" [value]="organization">{{organization.alias}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleBackupForm.controls['organization'].hasError('required')">
+              Organization is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Frequency</mat-label>
+            <mat-select formControlName="frequency">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let frequency of backupService.frequency" [value]="frequency.value">{{frequency.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleBackupForm.controls['frequency'].hasError('required')">
+              Frequency is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="startDate" [min]="min" [matDatepicker]="picker" placeholder="Choose a start date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <mat-dialog-actions>
+    <div class="row m-0 w-100">
+      <div class="col-6 pl-0">
+        <button class="mat-raised-button w-100" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="col-6 pr-0">
+        <button class="mat-raised-button mat-primary w-100" (click)="save()" [disabled]="scheduleBackupForm.invalid || loadingService.loading">Save</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+
+</div>

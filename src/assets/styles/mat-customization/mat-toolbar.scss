@@ -1,0 +1,6 @@
+mat-toolbar {
+  @media (max-width: $screen-sm) {
+    // navbar title text on mobile
+    font-size: medium !important;
+  }
+}

@@ -1,0 +1,33 @@
+<div class="container">
+
+  <h2 mat-dialog-title class="text-center">Delete {{data.alias}}</h2>
+  <p>Confirm you want to delete this organization by typing its name, <strong>{{data.alias}}</strong>, below.</p>
+  <p>This action is <strong>permanent</strong> and cannot be undone.</p>
+
+  <div mat-dialog-content style="max-height: 400px;">
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="deleteOrganizationForm" (keyup.enter)="delete()" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="pt-2">
+          <mat-form-field>
+            <input matInput placeholder="Organization" formControlName="alias">
+            <mat-error *ngIf="deleteOrganizationForm.controls['alias'].hasError('required')">
+              Organization is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-actions>
+    <div class="row m-0 w-100">
+      <div class="col-6 pl-0">
+        <button class="mat-raised-button w-100" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="col-6 pr-0">
+        <button class="mat-raised-button mat-warn w-100" (click)="delete()" [disabled]="deleteOrganizationForm.controls['alias'].value !== data.alias">Delete</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,72 @@
+<div class="h-100">
+
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm="true">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="clickable" [routerLink]="['/home']">Here 2 There</span>
+      <i class="material-icons p-1 mt-1">compare_arrows</i>
+      {{subtitles[router.url]}}
+      <mat-spinner color="warn" [diameter]="30" class="mx-3" *ngIf="loadingService.loading"></mat-spinner>
+      <span class="fs-12" *ngIf="loadingService.loading">{{loadingService.message}}</span>
+      <span class="fill-remaining-space">
+      </span>
+
+      <span class="menu-spacer"></span>
+      <div fxShow="true" fxHide.lt-md>
+        <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+        <button mat-button [routerLink]="['/login']" *ngIf="!authService.isAuthenticated">Login</button>
+        <button mat-button [routerLink]="['/signup']" *ngIf="!authService.isAuthenticated">Sign Up</button>
+        <button mat-button [routerLink]="['/home']" *ngIf="authService.isAuthenticated">Home</button>
+        <button mat-button [matMenuTriggerFor]="oneOffMenu"
+                matTooltip="Quickly retrieve or push metadata"
+                aria-label="Quickly retrieve or push metadata"
+                *ngIf="authService.isAuthenticated">One-off</button>
+        <mat-menu #oneOffMenu="matMenu">
+          <button mat-menu-item [routerLink]="['/one-off/pull']" *ngIf="authService.isAuthenticated">
+            <mat-icon class="color-salesforce">cloud_download</mat-icon>
+            <span>Quick Pull</span>
+          </button>
+          <button mat-menu-item [routerLink]="['/one-off/push']" *ngIf="authService.isAuthenticated">
+            <mat-icon class="color-salesforce">cloud_upload</mat-icon>
+            <span>Quick Push</span>
+          </button>
+          <button mat-menu-item [routerLink]="['/one-off/download']" *ngIf="authService.isAuthenticated">
+            <mat-icon>save_alt</mat-icon>
+            <span>Quick Download</span>
+          </button>
+        </mat-menu>
+        <button mat-button *ngIf="authService.isAuthenticated"
+                matTooltip="Schedule or manage migrations. Coming soon!"
+                aria-label="Schedule or manage migrations. Coming soon!">Migration</button>
+        <button mat-button [routerLink]="['/backup']" *ngIf="authService.isAuthenticated"
+                matTooltip="Schedule or manage a backup"
+                aria-label="Schedule or manage a backup">Backups</button>
+        <button mat-button [routerLink]="['/myorg']" *ngIf="authService.isAuthenticated"
+                matTooltip="Manage your saved organizations"
+                aria-label="Manage your saved organizations">My Orgs</button>
+        <button mat-button *ngIf="authService.isAuthenticated" (click)="authService.logout()">Logout</button>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container class="h-100">
+    <mat-sidenav #sidenav>
+      <mat-nav-list class="d-grid">
+        <button mat-button [routerLink]="['/login']" (click)="sidenav.toggle()" *ngIf="!authService.isAuthenticated">Login</button>
+        <button mat-button [routerLink]="['/signup']" (click)="sidenav.toggle()" *ngIf="!authService.isAuthenticated">Sign Up</button>
+        <button mat-button [routerLink]="['/home']" (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated">Home</button>
+        <button mat-button [routerLink]="['/one-off/pull']" (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated">Quick Pull</button>
+        <button mat-button [routerLink]="['/one-off/push']" (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated">Quick Push</button>
+        <button mat-button [routerLink]="['/one-off/download']" (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated">Quick Download</button>
+        <button mat-button [routerLink]="['/backup']" (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated">Backup</button>
+        <button mat-button [routerLink]="['/myorg']" (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated">My Orgs</button>
+        <button mat-button *ngIf="authService.isAuthenticated" (click)="authService.logout(); sidenav.toggle()">Logout</button>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="overflow-x-hidden bg-white">
+
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,34 @@
+<div class="container">
+
+  <h2 mat-dialog-title class="text-center">Delete Scheduled Backup for {{data.organization.alias}}</h2>
+  <p>Confirm you want to remove this scheduled backup by typing its name, <strong>{{data.organization.alias}}</strong>, below.</p>
+  <p>Backup metadata that exists for this organization will not be removed.</p>
+  <p>This action is <strong>permanent</strong> and cannot be undone.</p>
+
+  <div mat-dialog-content style="max-height: 400px;">
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="deleteBackupForm" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="pt-2">
+          <mat-form-field>
+            <input matInput placeholder="Organization" formControlName="organization">
+            <mat-error *ngIf="deleteBackupForm.controls['organization'].hasError('required')">
+              Organization is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-actions>
+    <div class="row m-0 w-100">
+      <div class="col-6 pl-0">
+        <button class="mat-raised-button w-100" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="col-6 pr-0">
+        <button class="mat-raised-button mat-warn w-100" (click)="delete()" [disabled]="deleteBackupForm.controls['organization'].value !== data.organization.alias">Delete</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,63 @@
+<!-- Recent Migrations Card -->
+<mat-spinner color="warn" class="mat-spinner-center" *ngIf="metadataService.loading"></mat-spinner>
+
+<mat-card class="bg-transparent h-100 px-4 mat-elevation-z0">
+  <mat-card-header>
+    <div mat-card-avatar class="align-self-center"><mat-icon>history</mat-icon></div>
+    <mat-card-title><h6 class="color-theme-main">Quick Download</h6></mat-card-title>
+    <mat-card-subtitle>Below are all of your recent one-off pull requests. One-off pull requests are erased 24 hours after creation.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="overflow-x-auto mat-elevation-z1">
+
+    <mat-toolbar class="mat-elevation-z1 bg-theme-pink text-white">Pull History</mat-toolbar>
+
+    <mat-form-field class="px-3 pt-2 w-100">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+    </mat-form-field>
+
+    <table mat-table matSort matSortActive="createdAt" matSortDirection="desc" [dataSource]="dataSource" class="w-100 h-100 mat-elevation-z1">
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="metadataService.generateS3Url(element)">
+            <mat-icon class="clickable" matTooltip="Download metadata"
+                      aria-label="Download metadata">save_alt</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+      <!-- Alias Column -->
+      <ng-container matColumnDef="alias">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Org Alias / Nickname </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization.alias}} </td>
+      </ng-container>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization.email}} </td>
+      </ng-container>
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Metadata Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type.charAt(0).toUpperCase() + element.type.slice(1)}} </td>
+      </ng-container>
+      <!-- CreatedAt Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+      <!-- ExpiresAt Column -->
+      <ng-container matColumnDef="expiresAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Expires At </th>
+        <td mat-cell *matCellDef="let element"> {{element.expiry | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+      <!-- Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,30 @@
+<div class="container">
+  <h2 mat-dialog-title class="text-center">Manual Metadata Selection</h2>
+  <div mat-dialog-content style="max-height: 400px;">
+    <div class="row">
+      <div class="col">
+
+        <mat-selection-list #types>
+          <mat-list-option style="height: inherit !important;" [value]="type" *ngFor="let type of this.forceService.metadataTypes" (click)="updateSelection($event, type, null)" [selected]="this.forceService.selectedMetadataTypes.includes(type.xmlName)">
+            {{type.xmlName}}
+            <mat-selection-list *ngIf="type.childXmlNames">
+              <mat-list-option style="height: inherit !important;" [value]="child" *ngFor="let child of type.childXmlNames" (click)="updateSelection($event, type, child)" [selected]="this.forceService.selectedMetadataTypes.includes(child)">
+                {{child}}
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-actions>
+    <div class="row m-0 w-100">
+      <div class="col-6 pl-0">
+        <button class="mat-raised-button w-100" (click)="close()">Cancel</button>
+      </div>
+      <div class="col-6 pr-0">
+        <button class="mat-raised-button mat-primary w-100" (click)="confirm()">Confirm</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>

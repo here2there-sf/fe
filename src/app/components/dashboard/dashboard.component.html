@@ -1,0 +1,186 @@
+<div id="dashboard">
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-angular-sm col-angular-xs col-3">
+        <mat-card class="w-100 h-100 background-my-organizations">
+          <mat-card-header>
+            <div class="row w-100">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <button [routerLink]="['/myorg']" mat-fab color="primary">
+                    <mat-icon>cloud</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-8 text-right">
+                <button [routerLink]="['/myorg']" mat-raised-button color="primary"
+                        [matBadge]="orgService.my_organizations.length" matBadgePosition="before" matBadgeColor="accent">
+                  My Organizations
+                </button>
+              </div>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="pt-5 text-center">
+            <div class="row">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>Sandbox</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>Develop</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>Production</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>{{orgService.my_organizations | organizationFilter: 'sandbox'}}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>{{orgService.my_organizations | organizationFilter: 'development'}}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>{{orgService.my_organizations | organizationFilter: 'production'}}</span>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-angular-sm col-angular-xs col-3">
+        <mat-card class="w-100 h-100 background-metadata">
+          <mat-card-header>
+            <div class="row w-100">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <button [routerLink]="['/one-off/download']" mat-fab color="primary">
+                    <mat-icon>folder</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-8 text-right">
+                <button [routerLink]="['/one-off/download']" mat-raised-button color="primary"
+                        [matBadge]="metadataService._oneOffPulls.length" matBadgePosition="before" matBadgeColor="accent">
+                  Metadata
+                </button>
+              </div>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="pt-5 text-center">
+            <div class="row">
+              <div class="col-12">
+                <div class="align-self-center">
+                  <span>Excluding backups, all stored metadata is cleared daily.</span>
+                </div>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-angular-sm col-angular-xs col-3">
+        <mat-card class="w-100 h-100 background-migration">
+          <mat-card-header>
+            <div class="row w-100">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <button mat-fab color="primary">
+                    <mat-icon>swap_horiz</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-8 text-right">
+                <button mat-raised-button color="primary"
+                        [matBadge]="0" matBadgePosition="before" matBadgeColor="accent">
+                  Migration
+                </button>
+              </div>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="pt-5 text-center">
+            <div class="row">
+              <div class="col-12">
+                Coming soon!
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-angular-sm col-angular-xs col-3">
+        <mat-card class="w-100 h-100 background-backup">
+          <mat-card-header>
+            <div class="row w-100">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <button [routerLink]="['/backup']" mat-fab color="primary">
+                    <mat-icon>archive</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-8 text-right">
+                <button [routerLink]="['/backup']" mat-raised-button color="primary"
+                        [matBadge]="backupService.backups.length" matBadgePosition="before" matBadgeColor="accent">
+                  Backup
+                </button>
+              </div>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="pt-5 text-center">
+            <div class="row">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>Sdbx</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>Dev</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>Prod</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>{{backupService.backups | backupFilter: 'sandbox'}}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>{{backupService.backups | backupFilter: 'development'}}</span>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="align-self-center">
+                  <span>{{backupService.backups | backupFilter: 'production'}}</span>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+  </div>
+</div>

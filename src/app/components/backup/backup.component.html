@@ -1,0 +1,82 @@
+<mat-card class="bg-transparent h-100 px-4">
+
+  <mat-card-header>
+    <mat-card-title><h6 class="color-theme-main">Scheduled Backups</h6></mat-card-title>
+    <mat-card-subtitle>Manage your scheduled backups. Scheduled backups rely on the saved information for each organization being valid. If any changes occur to your Salesforce.org credentials, ensure that you update the organization from the My Orgs page.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="mat-elevation-z1 overflow-x-auto">
+
+    <mat-toolbar class="bg-theme-pink text-white">
+      <span>My Backups</span>
+      <span class="fill-remaining-space"></span>
+      <button mat-raised-button color="primary" (click)="openScheduleBackupDialog()">
+        <mat-icon>add</mat-icon>Schedule a Backup
+      </button>
+    </mat-toolbar>
+    <mat-form-field class="px-3 pt-2 w-100">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+    </mat-form-field>
+
+
+    <table mat-table matSort matSortActive="createdAt" matSortDirection="desc" [dataSource]="dataSource" class="w-100 h-100">
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <a  (click)="openEditOrganizationDialog(element)">
+            <mat-icon class="clickable color-dark align" matTooltip="Manage backup"
+                      aria-label="Manage organization">settings</mat-icon>
+          </a>
+          <a (click)="openDeleteBackupDialog(element)">
+            <mat-icon class="clickable color-theme-pink" matTooltip="Delete backup"
+                      aria-label="Delete organization">delete</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <!-- Organization Column -->
+      <ng-container matColumnDef="organization">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Organization </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization.alias}} </td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization.type.charAt(0).toUpperCase() + element.organization.type.slice(1)}} </td>
+      </ng-container>
+
+
+      <!-- Frequency Column -->
+      <ng-container matColumnDef="frequency">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Frequency </th>
+        <td mat-cell *matCellDef="let element"> {{backupService.getFrequency(element.frequency)}} </td>
+      </ng-container>
+
+      <!-- Start Date On Column -->
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+
+      <!-- Scheduled On Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Scheduled At </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+
+      <!-- UpdatedAt Column -->
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Updated At </th>
+        <td mat-cell *matCellDef="let element"> {{element.updatedAt | date: 'MM/dd/yyyy, h:mm a z'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,71 @@
+<div class="container">
+
+  <h2 mat-dialog-title class="text-center">Update {{this.data.alias}}</h2>
+  <div mat-dialog-content style="max-height: 400px;">
+    <div class="row">
+      <div class="col">
+
+        <form [formGroup]="editOrganizationForm" fxFlex fxLayout="column" fxLayoutAlign="center stretch" class="pt-2">
+          <mat-form-field>
+            <input matInput placeholder="Alias" formControlName="alias">
+            <mat-error *ngIf="editOrganizationForm.controls['alias'].hasError('required')">
+              Alias is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="editOrganizationForm.controls['email'].hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="editOrganizationForm.controls['email'].hasError('email')">
+              Email is <strong>invalid</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Password" [type]="editOrganizationFormPasswordHide ? 'password' : 'text'" formControlName="password">
+            <mat-icon matSuffix (click)="toggleVisibilityPassword()">{{editOrganizationFormPasswordHide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-error *ngIf="editOrganizationForm.controls['password'].hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Security Token" [type]="editOrganizationFormTokenHide ? 'password' : 'text'" formControlName="securityToken">
+            <mat-icon matSuffix (click)="toggleVisibilitySecurity()">{{editOrganizationFormTokenHide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-error *ngIf="editOrganizationForm.controls['securityToken'].hasError('required')">
+              Security Token is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Organization Type</mat-label>
+            <mat-select formControlName="type" matTooltip="Make sure you select the correct organization type. Failure to select the correct type will result in deployment failures."
+                        aria-label="Make sure you select the correct organization type. Failure to select the correct type will result in deployment failures.">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let type of orgService.types" [value]="type">{{type.charAt(0).toUpperCase() + type.slice(1)}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="editOrganizationForm.controls['type'].hasError('required')">
+              Type is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-actions>
+    <div class="row m-0 w-100">
+      <div class="col-6 pl-0">
+        <button class="mat-raised-button w-100" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="col-6 pr-0">
+        <button class="mat-raised-button mat-primary w-100" (click)="update()" [disabled]="editOrganizationForm.invalid">Update</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+
+</div>
