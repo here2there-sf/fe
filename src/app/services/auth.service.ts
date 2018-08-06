@@ -26,7 +26,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);
     // force component reload
-    window.location.replace('/login');
+    this.router.navigate(['/login']);
   }
 
   login(username: string, password: string, next) {
